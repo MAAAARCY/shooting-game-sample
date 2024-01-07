@@ -17,36 +17,42 @@ pygame.display.set_caption('シューティングゲーム')
 
 # プレイヤー設定
 PLAYER_WIDTH = 80
-PLAYER_HEIGHT = 10
+PLAYER_HEIGHT = 60
 PLAYER_X = (WINDOW_WIDTH - PLAYER_WIDTH) // 2
 PLAYER_Y = WINDOW_HEIGHT - 100
 PLAYER_SPEED_X = 5
 
 player_img = pygame.image.load("images/戦車.png")
+player_img = pygame.transform.scale(player_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
 player = pygame.Rect(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT)
 
 # プレイヤーが打つ弾の設定
-PLAYER_BULLET_WIDTH = 5
-PLAYER_BULLET_HEIGHT = 5
+PLAYER_BULLET_WIDTH = 20
+PLAYER_BULLET_HEIGHT = 20
 PLAYER_BULLET_X = PLAYER_X
 PLAYER_BULLET_Y = PLAYER_Y
 PLAYER_BULLET_SPEED = 5
 PLAYER_BULLET_MAX_COUNT = 5
 
-#player_bullet = pygame.Rect(PLAYER_BULLET_X, PLAYER_BULLET_Y, PLAYER_BULLET_WIDTH, PLAYER_BULLET_HEIGHT)
+#player_bullet = pygame.Rect(PLAYER_BULLET_X, PLAYER_BULLET_Y, PLAYER_BULLET_WIDTH, PLAYER_BULLET_HEIGHT)\
+player_bullet_img = pygame.image.load("images/銃弾.png")
+player_bullet_img = pygame.transform.scale(player_bullet_img, (PLAYER_BULLET_WIDTH, PLAYER_BULLET_HEIGHT))
 player_bullets = []
 
 # エネミー設定
-ENEMY_WIDTH = 30
-ENEMY_HEIGHT = 30
+ENEMY_WIDTH = 80
+ENEMY_HEIGHT = 60
 ENEMY_X = WINDOW_WIDTH // 2
 ENEMY_Y = WINDOW_HEIGHT // 2
 ENEMY_SPEED_X = 5
-ENEMY_MAX_COUNT = 3
+ENEMY_MAX_COUNT = 5
+
+enemy_img = pygame.image.load("images/UFO.png")
+enemy_img = pygame.transform.scale(enemy_img, (ENEMY_WIDTH, ENEMY_HEIGHT))
 
 # エネミーが打つ弾の設定
-ENEMY_BULLET_WIDTH = 5
-ENEMY_BULLET_HEIGHT = 5
+ENEMY_BULLET_WIDTH = 20
+ENEMY_BULLET_HEIGHT = 20
 ENEMY_BULLET_X = ENEMY_X
 ENEMY_BULLET_Y = ENEMY_Y
 ENEMY_BULLET_SPEED = 5
@@ -54,17 +60,22 @@ ENEMY_BULLET_CYCLE = 3 #秒数指定
 ENEMY_BULLET_MAX_COUNT = 5
 
 #enemy = pygame.Rect(ENEMY_X, ENEMY_Y, ENEMY_WIDTH, ENEMY_HEIGHT)
+enemy_bullet_img = pygame.image.load("images/銃弾.png")
+enemy_bullet_img = pygame.transform.scale(enemy_bullet_img, (ENEMY_BULLET_WIDTH, ENEMY_BULLET_HEIGHT))
+enemy_bullet_img = pygame.transform.rotate(enemy_bullet_img, 180)
 enemys = []
 enemys_speed_x = []
 enemys_bullet_cycle = []
 enemys_bullets = []
 enemys_bullet_speed = []
+#kill_enemys = []
+reborn_time = 3
 for i in range(ENEMY_MAX_COUNT):
     enemy_x = random.randint(0, ENEMY_X)
     enemy_y = random.randint(0, ENEMY_Y)
     enemy = pygame.Rect(enemy_x, enemy_y, ENEMY_WIDTH, ENEMY_HEIGHT)
     enemys.append(enemy)
-    enemys_speed_x.append(ENEMY_SPEED_X)
+    enemys_speed_x.append(random.randint(ENEMY_SPEED_X, ENEMY_SPEED_X+5))
     enemys_bullet_cycle.append(ENEMY_BULLET_CYCLE + i)
     enemys_bullet_speed.append(ENEMY_BULLET_SPEED)
 
@@ -137,6 +148,8 @@ while True:
                 enemys.remove(enemy)
 
                 del enemys_bullet_cycle[enemy_num]
+                #del enemys_bullet_speed[enemy_num]
+                #del enemys_speed_x[enemy_num]
                 score += 10
     
     # エネミーの弾の当たり判定
@@ -157,22 +170,38 @@ while True:
             enemys_bullet_cycle[enemy_num] += ENEMY_BULLET_CYCLE
             shot_bullet_by_enemy(enemy_num)
             print(len(enemys_bullets))
-
+    
+    # 死んだエネミーを復活させる処理
+    """
+    if (now_time // 1010) % 10 == 0 and len(enemys) != ENEMY_MAX_COUNT:
+        print("reborn")
+        enemy_x = random.randint(0, ENEMY_X)
+        enemy_y = random.randint(0, ENEMY_Y)
+        enemy = pygame.Rect(enemy_x, enemy_y, ENEMY_WIDTH, ENEMY_HEIGHT)
+        enemys.append(enemy)
+        enemys_speed_x.append(random.randint(ENEMY_SPEED_X, ENEMY_SPEED_X+5))
+        enemys_bullet_cycle.append(ENEMY_BULLET_CYCLE)
+        enemys_bullet_speed.append(ENEMY_BULLET_SPEED)
+    """
     # 以下描画処理
     # プレイヤーを描画
-    pygame.draw.rect(screen, (0, 0, 0), player)
+    #pygame.draw.rect(screen, (0, 0, 0), player)
+    screen.blit(player_img, player)
 
     # エネミーを描画
     for enemy in enemys:
-        pygame.draw.rect(screen, (0, 0, 0), enemy)
+        #pygame.draw.rect(screen, (0, 0, 0), enemy)
+        screen.blit(enemy_img, enemy)
 
     # プレイヤーの弾を描画
     for bullet in player_bullets:
-        pygame.draw.rect(screen, (0, 0, 0), bullet)
+        #pygame.draw.rect(screen, (0, 0, 0), bullet)
+        screen.blit(player_bullet_img, bullet)
     
     # エネミーの弾を描画
     for bullet in enemys_bullets:
-        pygame.draw.rect(screen, (0, 0, 0), bullet)
+        #pygame.draw.rect(screen, (0, 0, 0), bullet)
+        screen.blit(enemy_bullet_img, bullet)
     
     # スコアを描画
     score_surface = font.render("Score: " + str(score), True, (0, 0, 0))
