@@ -19,10 +19,9 @@ pygame.display.set_caption('シューティングゲーム')
 PLAYER_WIDTH = 80
 PLAYER_HEIGHT = 10
 PLAYER_X = (WINDOW_WIDTH - PLAYER_WIDTH) // 2
-PLAYER_Y = WINDOW_HEIGHT - 100
+PLAYER_Y = WINDOW_HEIGHT - 50
 PLAYER_SPEED_X = 5
 
-player_img = pygame.image.load("images/戦車.png")
 player = pygame.Rect(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT)
 
 # プレイヤーが打つ弾の設定
