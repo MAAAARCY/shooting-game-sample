@@ -73,6 +73,7 @@ font = pygame.font.Font(None, 30)
 
 # 時間管理
 now_time = 0
+once = True
 
 #プレイヤーの弾の発射処理
 def shot_bullet_by_player():
@@ -89,7 +90,7 @@ def shot_bullet_by_enemy(enemy_num:int):
         enemy_bullet_y = enemys[enemy_num].y
         enemy_bullet = pygame.Rect(enemy_bullet_x, enemy_bullet_y, ENEMY_BULLET_WIDTH, ENEMY_BULLET_HEIGHT)
         enemys_bullets.append(enemy_bullet)
-        enemys_bullet_cycle[enemy_num] += ENEMY_BULLET_CYCLE
+        #enemys_bullet_cycle[enemy_num] += ENEMY_BULLET_CYCLE
 
 while True:
     # ウインドウを白で塗りつぶす
@@ -136,26 +137,30 @@ while True:
                 enemys.remove(enemy)
 
                 del enemys_bullet_cycle[enemy_num]
-                score += 10
+                """スコアを+10する処理を書く"""
     
     # エネミーの弾の当たり判定
     for enemy_num, bullet in enumerate(enemys_bullets):
-        bullet.y += enemys_bullet_speed[enemy_num]
+        bullet.y += ENEMY_BULLET_SPEED
         # 弾が画面外に出た時の処理
         if bullet.top > WINDOW_HEIGHT:
             enemys_bullets.remove(bullet)
         # プレイヤーに弾が当たった時の処理
         if bullet.colliderect(player):
             enemys_bullets.remove(bullet)
-            score -= 10
+            """スコアを-10する処理を書く"""
     
     # エネミーの弾発射周期管理
-    for enemy_num, cycle in enumerate(enemys_bullet_cycle):
-        if (now_time // 1000) % cycle == 0 and (now_time // 1000) != 0:
-            print(cycle)
-            enemys_bullet_cycle[enemy_num] += ENEMY_BULLET_CYCLE
-            shot_bullet_by_enemy(enemy_num)
-            print(len(enemys_bullets))
+    if (now_time // 1000) % ENEMY_BULLET_CYCLE == 0 and (now_time // 1000) != 0:
+        #print(cycle)
+        #enemys_bullet_cycle[enemy_num] += ENEMY_BULLET_CYCLE
+        shot_bullet_by_enemy(random.randint(0,len(enemys)-1))
+        #print(len(enemys_bullets))
+        ENEMY_BULLET_CYCLE += 3
+        if ENEMY_BULLET_CYCLE > 9:
+            ENEMY_BULLET_CYCLE = 3
+        
+        print("shot")
 
     # 以下描画処理
     # プレイヤーを描画

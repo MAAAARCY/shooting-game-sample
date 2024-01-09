@@ -71,7 +71,7 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:
-            if event.key == K_SPACE:
+            if event.key == K_SPACE: #おまけ課題
                 shot_bullet_by_player()
     
     # キーボードの状態を取得
@@ -79,9 +79,9 @@ while True:
 
     # 移動処理
     # プレイヤーの移動
-    if keys[K_LEFT] and player.left > 0:
+    if keys[K_LEFT] and """問題1(1)""":
         player.x -= PLAYER_SPEED_X
-    if keys[K_RIGHT] and player.right < WINDOW_WIDTH:
+    if keys[K_RIGHT] and """問題1(2)""":
         player.x += PLAYER_SPEED_X
     
     # エネミーの移動
@@ -89,7 +89,7 @@ while True:
         enemy.x += enemys_speed_x[enemy_num]
 
         # エネミーが画面外に出ないようにするための処理
-        if enemy.left < 0 or enemy.right > WINDOW_WIDTH:
+        if """問題2(1)""" or """問題2(2)""":
             enemys_speed_x[enemy_num] = -enemys_speed_x[enemy_num]
     
     # 弾の挙動に関する処理
@@ -97,7 +97,7 @@ while True:
     for bullet in player_bullets:
         bullet.y -= PLAYER_BULLET_SPEED
         #弾が画面外に出た時の処理
-        if bullet.top < 0:
+        if """問題3""":
             player_bullets.remove(bullet)
         # エネミーに弾が当たった時の処理
         for enemy in enemys:
