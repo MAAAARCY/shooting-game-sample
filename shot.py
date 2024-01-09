@@ -30,7 +30,7 @@ PLAYER_BULLET_HEIGHT = 20
 PLAYER_BULLET_X = PLAYER_X
 PLAYER_BULLET_Y = PLAYER_Y
 PLAYER_BULLET_SPEED = 5
-PLAYER_BULLET_MAX_COUNT = 5
+PLAYER_BULLET_MAX_COUNT = 2
 
 bullet_img = pygame.image.load("images/銃弾.png")
 
@@ -58,7 +58,7 @@ class Player(pygame.sprite.Sprite):
             self.bullets.append(player_bullet)
     
     #プレイヤーの弾の当たり判定
-    def bullet_collided(self, enemy_operator):
+    def bullet_collided(self, enemy_operator, score):
         for bullet in self.bullets:
             bullet.rect.y -= PLAYER_BULLET_SPEED
             # 弾が画面外に出た時の処理
@@ -69,7 +69,7 @@ class Player(pygame.sprite.Sprite):
                 if bullet.rect.colliderect(enemy):
                     self.bullets.remove(bullet)
                     enemy_operator.enemys.remove(enemy)
-
+                    score.score += 10
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -166,8 +166,13 @@ class EnemyOperator:
             enemy.bullet_collided(player)
 
 # スコア
-score = 0
-font = pygame.font.Font(None, 30)
+#score = 0
+#font = pygame.font.Font(None, 30)
+
+class Score:
+    def __init__(self):
+        self.score = 0
+        self.font = pygame.font.Font(None, 30)
 
 # 時間管理
 now_time = 0
@@ -178,6 +183,8 @@ once = True
 player = Player()
 enemy_operator = EnemyOperator()
 enemy_operator.set_enemys()
+
+score = Score()
 
 while True:
     # ウインドウを白で塗りつぶす
@@ -204,7 +211,7 @@ while True:
     
     # 弾の挙動に関する処理
     # プレイヤーの弾の当たり判定
-    player.bullet_collided(enemy_operator)
+    player.bullet_collided(enemy_operator, score)
     
     # エネミーの弾の当たり判定
     enemy_operator.bullets_collided(player)
@@ -243,7 +250,7 @@ while True:
     for enemy in enemy_operator.enemys:
         all_sprites.add(enemy.bullets)
     # スコアを描画
-    score_surface = font.render("Score: " + str(score), True, (0, 0, 0))
+    score_surface = score.font.render("Score: " + str(score.score), True, (0, 0, 0))
     screen.blit(score_surface, (10, 10))
 
     all_sprites.draw(screen)
