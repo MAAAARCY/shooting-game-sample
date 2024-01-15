@@ -159,6 +159,7 @@ while True:
         ENEMY_BULLET_CYCLE += 3
         if ENEMY_BULLET_CYCLE > 9:
             ENEMY_BULLET_CYCLE = 3
+            now_time = 0
         
         print("shot")
 
