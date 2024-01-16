@@ -97,7 +97,7 @@ ENEMY_BULLET_HEIGHT = 20
 ENEMY_BULLET_X = ENEMY_X
 ENEMY_BULLET_Y = ENEMY_Y
 ENEMY_BULLET_SPEED = 5
-ENEMY_BULLET_CYCLE = 3 #秒数指定
+ENEMY_BULLET_CYCLE = 1 #秒数指定
 ENEMY_BULLET_MAX_COUNT = 5
 
 enemy_bullet_img = pygame.image.load("images/銃弾.png")
@@ -229,9 +229,9 @@ while True:
     # エネミーの弾発射周期管理
     if (now_time // 1000) % ENEMY_BULLET_CYCLE == 0 and (now_time // 1000) != 0:
         enemy_operator.shot_bullets()
-        ENEMY_BULLET_CYCLE += 3
-        if ENEMY_BULLET_CYCLE > 9:
-            ENEMY_BULLET_CYCLE = 3
+        ENEMY_BULLET_CYCLE += 1
+        if ENEMY_BULLET_CYCLE > 10:
+            ENEMY_BULLET_CYCLE = 1
             now_time = 0
     
     # 死んだエネミーを復活させる処理
