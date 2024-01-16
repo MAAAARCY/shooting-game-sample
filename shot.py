@@ -86,6 +86,7 @@ ENEMY_X = WINDOW_WIDTH // 2
 ENEMY_Y = WINDOW_HEIGHT // 2
 ENEMY_SPEED_X = 5
 ENEMY_MAX_COUNT = 5
+ENEMY_GENERATE_CYCLE = 2
 
 enemy_img = pygame.image.load("images/UFO.png")
 enemy_img = pygame.transform.scale(enemy_img, (ENEMY_WIDTH, ENEMY_HEIGHT))
@@ -100,7 +101,6 @@ ENEMY_BULLET_CYCLE = 3 #秒数指定
 ENEMY_BULLET_MAX_COUNT = 5
 
 enemy_bullet_img = pygame.image.load("images/銃弾.png")
-reborn_time = 3
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, bullet_cycle):
@@ -143,23 +143,32 @@ class Enemy(pygame.sprite.Sprite):
 class EnemyOperator:
     def __init__(self):
         self.enemys = []
+        self.enemys_stock = []
         #self.bullets = []
     
+    def set_enemy(self):
+        enemy = Enemy(ENEMY_BULLET_CYCLE)
+
+        if len(self.enemys) < ENEMY_MAX_COUNT: self.enemys.append(enemy)
+
     def set_enemys(self):
         for i in range(ENEMY_MAX_COUNT):
             enemy = Enemy(ENEMY_BULLET_CYCLE + i)
+            #self.enemys.append(enemy)
             self.enemys.append(enemy)
+        #enemy = Enemy(ENEMY_BULLET_CYCLE)
+        #self.enemys.append(enemy)
     
     def move_x(self):
         for enemy in self.enemys:
             enemy.move_x()
     
-    def shot_bullets(self, once:bool):
-        if once == False: return
+    def shot_bullets(self):
+        pick_num = random.randint(0, len(self.enemys))
 
-        for enemy in self.enemys:
-            enemy.shot_bullet()
-            #self.bullets.append(enemy.bullets)
+        for enemy_num, enemy in enumerate(self.enemys):
+            if enemy_num == pick_num:
+                enemy.shot_bullet()
     
     def bullets_collided(self, player:Player):
         for enemy in self.enemys:
@@ -176,13 +185,14 @@ class Score:
 
 # 時間管理
 now_time = 0
+reborn_time = 0
 once = True
 
 #エネミーの弾の発射処理
 
 player = Player()
 enemy_operator = EnemyOperator()
-enemy_operator.set_enemys()
+enemy_operator.set_enemy()
 
 score = Score()
 
@@ -218,23 +228,21 @@ while True:
     
     # エネミーの弾発射周期管理
     if (now_time // 1000) % ENEMY_BULLET_CYCLE == 0 and (now_time // 1000) != 0:
-        enemy_operator.shot_bullets(once)
-        once = False
-    else:
-        once = True
+        enemy_operator.shot_bullets()
+        ENEMY_BULLET_CYCLE += 3
+        if ENEMY_BULLET_CYCLE > 9:
+            ENEMY_BULLET_CYCLE = 3
+            now_time = 0
     
     # 死んだエネミーを復活させる処理
-    """
-    if (now_time // 1010) % 10 == 0 and len(enemys) != ENEMY_MAX_COUNT:
+    if (reborn_time // 1000) % ENEMY_GENERATE_CYCLE == 0 and (reborn_time // 1000) != 0:
         print("reborn")
-        enemy_x = random.randint(0, ENEMY_X)
-        enemy_y = random.randint(0, ENEMY_Y)
-        enemy = pygame.Rect(enemy_x, enemy_y, ENEMY_WIDTH, ENEMY_HEIGHT)
-        enemys.append(enemy)
-        enemys_speed_x.append(random.randint(ENEMY_SPEED_X, ENEMY_SPEED_X+5))
-        enemys_bullet_cycle.append(ENEMY_BULLET_CYCLE)
-        enemys_bullet_speed.append(ENEMY_BULLET_SPEED)
-    """
+        enemy_operator.set_enemy()
+        ENEMY_GENERATE_CYCLE += 2
+        if ENEMY_GENERATE_CYCLE > 10:
+            ENEMY_GENERATE_CYCLE = 2
+            reborn_time = 0
+    
     # 以下描画処理
     all_sprites = pygame.sprite.Group()
     # プレイヤーを描画
@@ -258,3 +266,4 @@ while True:
     pygame.display.update()
     clock.tick(FPS)
     now_time += clock.get_time()
+    reborn_time += clock.get_time()
