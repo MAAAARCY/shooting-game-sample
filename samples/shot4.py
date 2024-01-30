@@ -171,6 +171,8 @@ class EnemyOperator:
     def move_y(self):
         for enemy in self.enemys:
             enemy.move_y()
+            if enemy.rect.colliderect(player):
+                self.enemys.remove(enemy)
     
     def shot_bullets(self):
         pick_num = random.randint(0, len(self.enemys))

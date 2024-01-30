@@ -31,7 +31,7 @@ PLAYER_BULLET_HEIGHT = 20 #プレイヤー弾の高さ
 PLAYER_BULLET_X = PLAYER_X #プレイヤー弾のX座標
 PLAYER_BULLET_Y = PLAYER_Y #プレイヤー弾のY座標
 PLAYER_BULLET_SPEED = 5 #プレイヤー弾の速度
-PLAYER_BULLET_MAX_COUNT = 2 #プレイヤー弾の最大値
+PLAYER_BULLET_MAX_COUNT = 10 #プレイヤー弾の最大値
 
 bullet_img = pygame.image.load("images/銃弾.png")
 
@@ -86,7 +86,7 @@ ENEMY_HEIGHT = 60 #エネミーの高さ
 ENEMY_X = WINDOW_WIDTH // 2 #エネミーのX座標
 ENEMY_Y = WINDOW_HEIGHT // 2 #エネミーのY座標
 ENEMY_SPEED_X = 5 #エネミーのスピード
-ENEMY_MAX_COUNT = 5 #エネミーの数の最大値
+ENEMY_MAX_COUNT = 10 #エネミーの数の最大値
 ENEMY_GENERATE_CYCLE = 2 #エネミーが生成される間隔の設定
 
 enemy_img = pygame.image.load("images/UFO.png")
