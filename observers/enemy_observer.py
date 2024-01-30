@@ -12,7 +12,6 @@ class EnemyObserver:
     def __init__(self):
         self.enemys = []
         self.enemys_stock = []
-        #self.bullets = []
     
     def set_enemy(self):
         enemy = Enemy()
