@@ -6,7 +6,7 @@ from common.common import Common
 
 from characters.player import Player
 
-from observers.enemy_operator import EnemyObserver
+from observers.enemy_observer import EnemyObserver
 
 from text_components.score import Score
 
