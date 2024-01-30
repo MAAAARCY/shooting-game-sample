@@ -54,6 +54,8 @@ class Player(pygame.sprite.Sprite):
             # エネミーに弾が当たった時の処理
             for enemy in enemy_operator.enemys:
                 if bullet.rect.colliderect(enemy):
-                    self.bullets.remove(bullet)
-                    enemy_operator.enemys.remove(enemy)
+                    if type(bullet) == Bullet: self.bullets.remove(bullet)
+
+                    enemy.heart -= 1
+                    if enemy.heart == 0: enemy_operator.enemys.remove(enemy)
                     score.score += 10

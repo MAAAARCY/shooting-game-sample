@@ -18,13 +18,15 @@ score = Score()
 fps = Common().get_fps()
 window_size = Common().get_window_size()
 
+time_keeper = Common().get_time_keeper()
+
 screen = pygame.display.set_mode((window_size.width, window_size.height))
 pygame.display.set_caption('シューティングゲーム')
 
 # 時間管理
-now_time = 0
-reborn_time = 0
-once = True
+#now_time = 0
+#reborn_time = 0
+#once = True
 
 player = Player()
 enemy_operator = EnemyObserver()
@@ -51,6 +53,9 @@ while True:
     # キーボードの状態を取得
     keys = pygame.key.get_pressed()
 
+    #時間管理
+    time_keeper.add_frame_time(clock.get_time()) #フレーム時間を足す
+
     # 移動処理
     # プレイヤーの移動
     player.move_x(keys)
@@ -66,21 +71,14 @@ while True:
     enemy_operator.bullets_collided(player)
     
     # エネミーの弾発射周期管理
-    if (now_time // 1000) % ENEMY_BULLET_CYCLE == 0 and (now_time // 1000) != 0:
+    if time_keeper.now_second % time_keeper.enemy_bullet_cycle == 0 and time_keeper.now_second != 0:
         enemy_operator.shot_bullets()
-        ENEMY_BULLET_CYCLE += 1
-        if ENEMY_BULLET_CYCLE > 10:
-            ENEMY_BULLET_CYCLE = 1
-            now_time = 0
+        time_keeper.add_enemy_bullet_cycle(ENEMY_BULLET_CYCLE)
     
     # 死んだエネミーを復活させる処理
-    if (reborn_time // 1000) % ENEMY_GENERATE_CYCLE == 0 and (reborn_time // 1000) != 0:
-        #print("reborn")
+    if time_keeper.reborn_second % time_keeper.generate_enemy_cycle == 0 and time_keeper.reborn_second != 0:
         enemy_operator.set_enemy()
-        ENEMY_GENERATE_CYCLE += 1
-        if ENEMY_GENERATE_CYCLE > 10:
-            ENEMY_GENERATE_CYCLE = 1
-            reborn_time = 0
+        time_keeper.add_generate_enemy_cycle(ENEMY_GENERATE_CYCLE)
     
     # 以下描画処理
     all_sprites = pygame.sprite.Group()
@@ -93,7 +91,6 @@ while True:
     all_sprites.add(player.bullets)
     
     # エネミーの弾を描画
-    #all_sprites.add(enemy_operator.bullets)
     for enemy in enemy_operator.enemys:
         all_sprites.add(enemy.bullets)
     # スコアを描画
@@ -104,5 +101,6 @@ while True:
 
     pygame.display.update()
     clock.tick(fps)
-    now_time += clock.get_time()
-    reborn_time += clock.get_time()
+
+    """now_time += clock.get_time()
+    reborn_time += clock.get_time()"""

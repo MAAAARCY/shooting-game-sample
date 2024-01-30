@@ -21,6 +21,7 @@ ENEMY_Y = window_size.height // 2 #Y座標
 ENEMY_SPEED_X = 5 #移動速度
 ENEMY_MAX_COUNT = 5 #最大数
 ENEMY_GENERATE_CYCLE = 2 #エネミーが復活する周期
+ENEMY_HEART = 3 #エネミーの体力
 
 ENEMY_BULLET_SPEED = 5 #弾の速度
 ENEMY_BULLET_MAX_COUNT = 3 #打てる弾の最大数
@@ -38,6 +39,7 @@ class Enemy(pygame.sprite.Sprite):
         self.speed_x = random.randint(ENEMY_SPEED_X, ENEMY_SPEED_X+5)
         self.bullet_cycle = ENEMY_BULLET_CYCLE
         self.bullet_speed = ENEMY_BULLET_SPEED
+        self.heart = ENEMY_HEART
         self.bullets = []
     
     def move_x(self):
