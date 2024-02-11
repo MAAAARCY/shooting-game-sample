@@ -6,7 +6,11 @@ import random
 from characters.player import Player
 from characters.enemy import Enemy
 
-ENEMY_MAX_COUNT = 10 #エネミーの最大数
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+ENEMY_MAX_COUNT = int(os.getenv('ENEMY_MAX_COUNT')) #エネミーの最大数
 
 class EnemyObserver:
     def __init__(self):
