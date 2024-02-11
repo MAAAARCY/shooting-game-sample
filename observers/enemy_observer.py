@@ -5,6 +5,7 @@ import random
 
 from characters.player import Player
 from characters.enemy import Enemy
+from characters.boss_enemy import BossEnemy
 
 from dotenv import load_dotenv
 import os
@@ -16,6 +17,7 @@ class EnemyObserver:
     def __init__(self):
         self.enemys = []
         self.enemys_stock = []
+        self.bosses = []
     
     def set_enemy(self):
         enemy = Enemy()
@@ -26,10 +28,16 @@ class EnemyObserver:
         for i in range(ENEMY_MAX_COUNT):
             enemy = Enemy()
             self.enemys.append(enemy)
-    
+
+    def set_boss(self):
+        boss = BossEnemy()
+        if len(self.bosses) == 0: self.bosses.append(boss)
+
     def move_x(self):
         for enemy in self.enemys:
             enemy.move_x()
+        for boss in self.bosses:
+            boss.move_x()
     
     def shot_bullets(self, pick_num):
         for enemy_num, enemy in enumerate(self.enemys):

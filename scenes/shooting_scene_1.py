@@ -24,6 +24,8 @@ class Shooting_scene_1:
         ENEMY_BULLET_CYCLE = 1
         ENEMY_GENERATE_CYCLE = 1
 
+        kill_enemy_count = 0 #エネミーを倒した数
+
         while True:
             # ウインドウを白で塗りつぶす
             screen.fill((255, 255, 255))
@@ -56,6 +58,7 @@ class Shooting_scene_1:
             
             # エネミーの弾の当たり判定
             enemy_operator.bullets_collided(player)
+            if len(enemy_operator.bosses) != 0: enemy_operator.bosses[0].bullet_collided(player)
             
             # エネミーの弾発射周期管理
             if time_keeper.now_second % time_keeper.enemy_bullet_cycle == 0 and time_keeper.now_second != 0:
@@ -63,6 +66,11 @@ class Shooting_scene_1:
                 
                 enemy_operator.shot_bullets(pick_num)
                 time_keeper.add_enemy_bullet_cycle(ENEMY_BULLET_CYCLE)
+            
+            # ボスの弾発射周期管理
+            if time_keeper.now_milli_second % time_keeper.boss_bullet_cycle == 0 and time_keeper.now_second != 0:
+                if len(enemy_operator.bosses) != 0: enemy_operator.bosses[0].shot_bullet()
+                time_keeper.add_boss_bullet_cycle(0.5)
             
             # 死んだエネミーを復活させる処理
             if time_keeper.reborn_second % time_keeper.generate_enemy_cycle == 0 and time_keeper.reborn_second != 0:
@@ -75,6 +83,7 @@ class Shooting_scene_1:
             all_sprites.add(player)
             
             # エネミーを描画
+            all_sprites.add(enemy_operator.bosses)
             all_sprites.add(enemy_operator.enemys)
             # プレイヤーの弾を描画
             all_sprites.add(player.bullets)
@@ -82,6 +91,8 @@ class Shooting_scene_1:
             # エネミーの弾を描画
             for enemy in enemy_operator.enemys:
                 all_sprites.add(enemy.bullets)
+            for boss in enemy_operator.bosses:
+                all_sprites.add(boss.bullets)
             # スコアを描画
             score_surface = score.font.render("Score: " + str(score.score), True, (0, 0, 0))
             screen.blit(score_surface, (10, 10))
