@@ -27,9 +27,7 @@ class EnemyObserver:
         for enemy in self.enemys:
             enemy.move_x()
     
-    def shot_bullets(self):
-        pick_num = random.randint(0, len(self.enemys))
-
+    def shot_bullets(self, pick_num):
         for enemy_num, enemy in enumerate(self.enemys):
             if enemy_num == pick_num:
                 enemy.shot_bullet()

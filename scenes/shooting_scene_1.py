@@ -2,6 +2,8 @@ import pygame
 from pygame.locals import *
 import sys
 
+import random
+
 from common.common import Common
 
 from characters.player import Player
@@ -57,7 +59,9 @@ class Shooting_scene_1:
             
             # エネミーの弾発射周期管理
             if time_keeper.now_second % time_keeper.enemy_bullet_cycle == 0 and time_keeper.now_second != 0:
-                enemy_operator.shot_bullets()
+                pick_num = random.randint(0, len(enemy_operator.enemys))
+                
+                enemy_operator.shot_bullets(pick_num)
                 time_keeper.add_enemy_bullet_cycle(ENEMY_BULLET_CYCLE)
             
             # 死んだエネミーを復活させる処理
