@@ -11,26 +11,31 @@ from .player import Player
 #弾丸の情報が格納されているモジュール
 from .utils.bullet import Bullet
 
+#エネミー設定を読み込むためのモジュール
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 window_size = Common().get_window_size()
 
 # エネミー設定
-ENEMY_WIDTH = 80 #幅 
-ENEMY_HEIGHT = 60 #高さ
+ENEMY_WIDTH = int(os.getenv('ENEMY_WIDTH')) #幅 
+ENEMY_HEIGHT = int(os.getenv('ENEMY_HEIGHT')) #高さ
 ENEMY_X = window_size.width // 2 #X座標
 ENEMY_Y = window_size.height // 2 #Y座標
-ENEMY_SPEED_X = 5 #移動速度
-ENEMY_MAX_COUNT = 5 #最大数
-ENEMY_GENERATE_CYCLE = 2 #エネミーが復活する周期
-ENEMY_HEART = 3 #エネミーの体力
+ENEMY_SPEED_X = int(os.getenv('ENEMY_SPEED_X')) #移動速度
+ENEMY_MAX_COUNT = int(os.getenv('ENEMY_MAX_COUNT')) #最大数
+ENEMY_GENERATE_CYCLE = int(os.getenv('ENEMY_GENERATE_CYCLE')) #エネミーが復活する周期
+ENEMY_HEART = int(os.getenv('ENEMY_HEART')) #エネミーの体力
 
-ENEMY_BULLET_SPEED = 5 #弾の速度
+ENEMY_BULLET_SPEED = int(os.getenv('ENEMY_BULLET_SPEED')) #弾の速度
 ENEMY_BULLET_MAX_COUNT = 3 #打てる弾の最大数
-ENEMY_BULLET_CYCLE = 3
+ENEMY_BULLET_CYCLE = int(os.getenv('ENEMY_BULLET_CYCLE'))
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self._enemy_img = pygame.image.load("images/UFO.png")
+        self._enemy_img = pygame.image.load("images/{}".format(os.getenv('ENEMY_IMAGE')))
         self._x = random.randint(0, ENEMY_X)
         self._y = random.randint(0, ENEMY_Y)
         self.image = pygame.transform.scale(self._enemy_img, (ENEMY_WIDTH, ENEMY_HEIGHT))
