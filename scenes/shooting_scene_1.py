@@ -92,6 +92,8 @@ class Shooting_scene_1:
             all_sprites = pygame.sprite.Group()
             # プレイヤーを描画
             all_sprites.add(player)
+            # プレイヤーの体力残数を描画
+            all_sprites.add(player.hearts)
 
             # エネミーを描画
             all_sprites.add(enemy_operator.enemys)
@@ -100,7 +102,7 @@ class Shooting_scene_1:
 
             # エネミーの弾を描画
             for enemy in enemy_operator.enemys:
-                all_sprites.add(enemy.bullets)\
+                all_sprites.add(enemy.bullets)
 
             # スコアを描画
             score_surface = score.font.render(

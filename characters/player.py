@@ -7,6 +7,9 @@ from common.common import Common
 # 弾丸の情報が格納されているモジュール
 from .utils.bullet import Bullet
 
+# ハートの情報が格納されているモジュール
+from .utils.heart import Heart
+
 # プレイヤー設定を読み込むためのモジュール
 from dotenv import load_dotenv
 import os
@@ -37,7 +40,13 @@ class Player(pygame.sprite.Sprite):
             PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT)
 
         self.bullets = []
+        self.hearts = []
         self.heart = PLAYER_HEART
+
+        for i in range(self.heart):
+            heart = Heart(i*int(os.getenv('HEART_WIDTH')))
+            self.hearts.append(heart)
+
         print("X:{},Y:{}".format(self.rect.x, self.rect.y))
 
     def move_x(self, keys):

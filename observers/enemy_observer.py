@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+import sys
 
 import random
 
@@ -56,5 +57,7 @@ class EnemyObserver:
         for enemy in self.enemys:
             if enemy.bullet_collided(player):
                 player.heart -= 1
+                player.hearts = player.hearts[0:player.heart]
                 if player.heart == 0:
-                    print("dead")
+                    pygame.quit()
+                    sys.exit()
