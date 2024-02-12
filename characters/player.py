@@ -20,6 +20,7 @@ PLAYER_HEIGHT = int(os.getenv('PLAYER_HEIGHT'))
 PLAYER_X = (window_size.width - PLAYER_WIDTH) // 2
 PLAYER_Y = window_size.height - 100
 PLAYER_SPEED_X = int(os.getenv('PLAYER_SPEED_X'))
+PLAYER_HEART = int(os.getenv('PLAYER_HEART'))
 
 PLAYER_BULLET_SPEED = int(os.getenv('PLAYER_BULLET_SPEED'))
 PLAYER_BULLET_MAX_COUNT = int(os.getenv('PLAYER_BULLET_MAX_COUNT'))
@@ -36,6 +37,7 @@ class Player(pygame.sprite.Sprite):
             PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT)
 
         self.bullets = []
+        self.heart = PLAYER_HEART
         print("X:{},Y:{}".format(self.rect.x, self.rect.y))
 
     def move_x(self, keys):

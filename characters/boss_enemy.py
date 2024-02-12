@@ -76,3 +76,6 @@ class BossEnemy(pygame.sprite.Sprite):
             # プレイヤーに弾が当たった時の処理
             if bullet.rect.colliderect(player):
                 self.bullets.remove(bullet)
+                return True
+
+        return False

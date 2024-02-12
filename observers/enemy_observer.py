@@ -54,4 +54,7 @@ class EnemyObserver:
 
     def bullets_collided(self, player: Player):
         for enemy in self.enemys:
-            enemy.bullet_collided(player)
+            if enemy.bullet_collided(player):
+                player.heart -= 1
+                if player.heart == 0:
+                    print("dead")
