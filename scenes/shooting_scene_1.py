@@ -86,16 +86,14 @@ class Shooting_scene_1:
             all_sprites.add(player)
             
             # エネミーを描画
-            #all_sprites.add(enemy_operator.bosses)
             all_sprites.add(enemy_operator.enemys)
             # プレイヤーの弾を描画
             all_sprites.add(player.bullets)
             
             # エネミーの弾を描画
             for enemy in enemy_operator.enemys:
-                all_sprites.add(enemy.bullets)
-            #for boss in enemy_operator.bosses:
-            #    all_sprites.add(boss.bullets)
+                all_sprites.add(enemy.bullets)\
+                
             # スコアを描画
             score_surface = score.font.render("Score: " + str(score.score), True, (0, 0, 0))
             screen.blit(score_surface, (10, 10))
