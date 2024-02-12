@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+import sys
 import random
 
 # ゲームの共通設定が格納されているモジュール
@@ -76,6 +77,11 @@ class BossEnemy(pygame.sprite.Sprite):
             # プレイヤーに弾が当たった時の処理
             if bullet.rect.colliderect(player):
                 self.bullets.remove(bullet)
+                player.heart -= 1
+                player.hearts = player.hearts[0:player.heart]
+                if player.heart == 0:
+                    pygame.quit()
+                    sys.exit()
                 return True
 
         return False
