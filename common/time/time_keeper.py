@@ -1,12 +1,11 @@
 class TimeKeeper:
-    def __init__(self):
+    def __init__(self, generate_enemy_cycle=1, enemy_bullet_cycle=1, boss_bullet_cycle=1):
         self._now_frame_time = 0 #ゲーム開始時からの時間
         self._reborn_frame_time = 0 #エネミーを復活させる周期
         
-        self.generate_enemy_cycle = 1 #エネミーが復活する周期の管理
-        self.enemy_bullet_cycle = 0.5 #エネミーが弾を打つ周期の管理
-        self.boss_bullet_cycle = 1
-        self.boss_bullet_cycle = 0.5
+        self.generate_enemy_cycle = generate_enemy_cycle #エネミーが復活する周期の管理
+        self.enemy_bullet_cycle = enemy_bullet_cycle #エネミーが弾を打つ周期の管理
+        self.boss_bullet_cycle = boss_bullet_cycle
 
         self.now_second = 0
         self.reborn_second = 0
