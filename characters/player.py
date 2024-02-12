@@ -1,13 +1,13 @@
 import pygame
 from pygame.locals import *
 
-#ゲームの共通設定が格納されているモジュール
+# ゲームの共通設定が格納されているモジュール
 from common.common import Common
 
-#弾丸の情報が格納されているモジュール
+# 弾丸の情報が格納されているモジュール
 from .utils.bullet import Bullet
 
-#プレイヤー設定を読み込むためのモジュール
+# プレイヤー設定を読み込むためのモジュール
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -24,32 +24,36 @@ PLAYER_SPEED_X = int(os.getenv('PLAYER_SPEED_X'))
 PLAYER_BULLET_SPEED = int(os.getenv('PLAYER_BULLET_SPEED'))
 PLAYER_BULLET_MAX_COUNT = int(os.getenv('PLAYER_BULLET_MAX_COUNT'))
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self._player_img = pygame.image.load("images/{}".format(os.getenv('PLAYER_IMAGE')))
-        self.image = pygame.transform.scale(self._player_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
-        self.rect = pygame.Rect(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT)
-        
+        self._player_img = pygame.image.load(
+            "images/{}".format(os.getenv('PLAYER_IMAGE')))
+        self.image = pygame.transform.scale(
+            self._player_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
+        self.rect = pygame.Rect(
+            PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT)
+
         self.bullets = []
         print("X:{},Y:{}".format(self.rect.x, self.rect.y))
-    
+
     def move_x(self, keys):
         if keys[K_LEFT] and self.rect.left > 0:
             self.rect.x -= PLAYER_SPEED_X
         if keys[K_RIGHT] and self.rect.right < window_size.width:
             self.rect.x += PLAYER_SPEED_X
-    
-    #プレイヤーの弾の発射処理
+
+    # プレイヤーの弾の発射処理
     def shot_bullet(self):
         if PLAYER_BULLET_MAX_COUNT > len(self.bullets):
             player_bullet_x = self.rect.x + PLAYER_WIDTH // 2
-            player_bullet_y = self.rect.y # 元々はPLAYER_BULLET_Y
+            player_bullet_y = self.rect.y  # 元々はPLAYER_BULLET_Y
             player_bullet = Bullet(player_bullet_x, player_bullet_y)
-            
+
             self.bullets.append(player_bullet)
-    
-    #プレイヤーの弾の当たり判定
+
+    # プレイヤーの弾の当たり判定
     def bullet_collided(self, enemy_operator, score):
         self._collision = False
         for bullet in self.bullets:
@@ -63,15 +67,18 @@ class Player(pygame.sprite.Sprite):
                     self.bullets.remove(bullet)
 
                     enemy.heart -= 1
-                    if enemy.heart == 0: 
+                    if enemy.heart == 0:
                         enemy_operator.enemys.remove(enemy)
-                        if enemy.name == "Enemy": score.score += 10
-                        elif enemy.name == "Boss": score.score += 100
+                        if enemy.name == "Enemy":
+                            score.score += 10
+                        elif enemy.name == "Boss":
+                            score.score += 100
                         self._collision = True
-                    
+
                     break
-            
-            if self._collision: break
+
+            if self._collision:
+                break
 
             self._collision = False
 
