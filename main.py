@@ -12,8 +12,6 @@ clock = pygame.time.Clock()
 fps = Common().get_fps()
 window_size = Common().get_window_size()
 
-time_keeper = Common().get_time_keeper()
-
 screen = pygame.display.set_mode((window_size.width, window_size.height))
 pygame.display.set_caption('シューティングゲーム')
 
