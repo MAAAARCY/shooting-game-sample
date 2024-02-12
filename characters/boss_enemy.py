@@ -46,6 +46,8 @@ class BossEnemy(pygame.sprite.Sprite):
         self.bullet_speed = ENEMY_BULLET_SPEED
         self.heart = ENEMY_HEART * 2
         self.bullets = []
+
+        self.name = "Boss"
     
 
     def move_x(self):

@@ -12,12 +12,14 @@ import os
 load_dotenv()
 
 ENEMY_MAX_COUNT = int(os.getenv('ENEMY_MAX_COUNT')) #エネミーの最大数
+BOSS_MAX_COUNT = 1
 
 class EnemyObserver:
     def __init__(self):
         self.enemys = []
         self.enemys_stock = []
         self.bosses = []
+        self.all_enemys = []
     
     def set_enemy(self):
         enemy = Enemy()
@@ -31,7 +33,10 @@ class EnemyObserver:
 
     def set_boss(self):
         boss = BossEnemy()
-        if len(self.bosses) == 0: self.bosses.append(boss)
+
+        if len(self.bosses) < BOSS_MAX_COUNT: self.enemys.append(boss)
+
+        self.bosses.append(boss)
 
     def move_x(self):
         for enemy in self.enemys:

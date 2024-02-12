@@ -51,7 +51,7 @@ class Player(pygame.sprite.Sprite):
     
     #プレイヤーの弾の当たり判定
     def bullet_collided(self, enemy_operator, score):
-        flag = False
+        self._collision = False
         for bullet in self.bullets:
             bullet.rect.y -= PLAYER_BULLET_SPEED
             # 弾が画面外に出た時の処理
@@ -65,22 +65,14 @@ class Player(pygame.sprite.Sprite):
                     enemy.heart -= 1
                     if enemy.heart == 0: 
                         enemy_operator.enemys.remove(enemy)
-                        score.score += 10
-                        flag = True
-                        break
+                        if enemy.name == "Enemy": score.score += 10
+                        elif enemy.name == "Boss": score.score += 100
+                        self._collision = True
+                    
+                    break
             
-            if flag: break
+            if self._collision: break
 
-            for boss in enemy_operator.bosses:
-                if bullet.rect.colliderect(boss):
-                    self.bullets.remove(bullet)
+            self._collision = False
 
-                    boss.heart -= 1
-                    if boss.heart == 0:
-                        enemy_operator.bosses.remove(boss)
-                        score.score += 100
-                        flag = True
-            
-            if flag: break
-
-        return flag
+        return self._collision
