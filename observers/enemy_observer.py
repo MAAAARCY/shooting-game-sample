@@ -62,9 +62,9 @@ class EnemyObserver:
             if enemy.heart == 0:
                 self.enemys.remove(enemy)
                 if enemy.name == "Enemy":
-                    score.score += 10
+                    score.value += 10
                 elif enemy.name == "Boss":
-                    score.score += 100
+                    score.value += 100
                 self._enemy_killed = True
                 # pygame.time.wait(10)
                 self.kill_enemy_count += 1

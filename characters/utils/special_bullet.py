@@ -17,4 +17,4 @@ class SpecialBullet(Bullet):
         self.image = pygame.transform.scale(
             self._bullet_img, (BULLET_WIDTH*10, BULLET_HEIGHT*10))
         self.rect = pygame.Rect(
-            bullet_x, bullet_y, BULLET_WIDTH, BULLET_HEIGHT)
+            bullet_x, bullet_y, BULLET_WIDTH*10, BULLET_HEIGHT*10)

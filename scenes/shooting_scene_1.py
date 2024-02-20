@@ -11,6 +11,7 @@ from characters.player import Player
 from observers.enemy_observer import EnemyObserver
 
 from text_components.score import Score
+from text_components.mp import Mp
 
 BOSS_BULLET_CYCLE = 1
 ENEMY_BULLET_CYCLE = 1
@@ -24,6 +25,7 @@ class Shooting_scene_1:
         enemy_observer.set_enemy()
 
         score = Score()
+        mp = Mp()
         time_keeper = Common().get_time_keeper(
             generate_enemy_cycle=GENERATE_ENEMY_CYCLE,
             enemy_bullet_cycle=ENEMY_BULLET_CYCLE,
@@ -31,7 +33,6 @@ class Shooting_scene_1:
         )
 
         kill_enemy_count = 0  # エネミーを倒した数
-        player_bullet_mp = 0  # プレイヤーのMP
 
         while True:
             # ウインドウを白で塗りつぶす
@@ -45,10 +46,10 @@ class Shooting_scene_1:
                 if event.type == KEYDOWN:
                     if event.key == K_SPACE:
                         player.shot_bullet()  # プレイヤーの弾の発射処理
-                        player_bullet_mp += 1
-                    if event.key == K_a and player_bullet_mp > 2:
-                        print("special attack")
+                        mp.value += 1
+                    if event.key == K_a and mp.value > 20:
                         player.special_bullet()
+                        mp.value = max(mp.value - 20, 0)
 
             # キーボードの状態を取得
             keys = pygame.key.get_pressed()
@@ -110,9 +111,15 @@ class Shooting_scene_1:
 
             # スコアを描画
             score_surface = score.font.render(
-                "Score: " + str(score.score), True, (0, 0, 0)
+                "Score: " + str(score.value), True, (0, 0, 0)
             )
             screen.blit(score_surface, (10, 10))
+
+            # MPを描画
+            mp_surface = score.font.render(
+                "MP: " + str(mp.value), True, (0, 0, 0)
+            )
+            screen.blit(mp_surface, (10, 40))
 
             all_sprites.draw(screen)
 

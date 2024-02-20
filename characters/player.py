@@ -67,12 +67,12 @@ class Player(pygame.sprite.Sprite):
             self.bullets.append(player_bullet)
 
     def special_bullet(self):
-        player_bullet_x = self.rect.x + PLAYER_WIDTH // 2
-        player_bullet_y = self.rect.y  # 元々はPLAYER_BULLET_Y
+        player_bullet_x = self.rect.x - PLAYER_WIDTH // 2
+        player_bullet_y = self.rect.y - PLAYER_HEIGHT * 2
         # player_bullet = Bullet(player_bullet_x, player_bullet_y)
-        special = SpecialBullet(player_bullet_x, player_bullet_y)
-        print(type(special))
-        # self.bullets.append(player_bullet)
+        special_bullet = SpecialBullet(player_bullet_x, player_bullet_y)
+        # print(type(special))
+        self.bullets.append(special_bullet)
 
     # プレイヤーの弾の当たり判定
     def bullet_collided(self, enemy_observer):
@@ -85,7 +85,8 @@ class Player(pygame.sprite.Sprite):
             # エネミーに弾が当たった時の処理
             for enemy in enemy_observer.enemys:
                 if bullet.rect.colliderect(enemy):
-                    self.bullets.remove(bullet)
+                    if type(bullet) == Bullet:
+                        self.bullets.remove(bullet)
                     enemy_observer.damage_enemy(enemy)
                     self._collision = True
                     break
