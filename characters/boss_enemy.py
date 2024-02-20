@@ -48,7 +48,7 @@ class BossEnemy(pygame.sprite.Sprite):
         self.speed_x = random.randint(ENEMY_SPEED_X, ENEMY_SPEED_X+5)
         self.bullet_cycle = ENEMY_BULLET_CYCLE
         self.bullet_speed = ENEMY_BULLET_SPEED
-        self.heart = ENEMY_HEART * 2
+        self.heart = ENEMY_HEART * 10
         self.bullets = []
 
         self.name = "Boss"
