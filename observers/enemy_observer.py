@@ -22,6 +22,7 @@ class EnemyObserver:
         self.enemys_stock = []
         self.bosses = []
         self.all_enemys = []
+        self.kill_enemy_count = 0
 
     def set_enemy(self):
         enemy = Enemy()
@@ -66,11 +67,14 @@ class EnemyObserver:
                     score.score += 100
                 self._enemy_killed = True
                 # pygame.time.wait(10)
-                return self._enemy_killed
-            else:
-                self._enemy_killed = False
+                self.kill_enemy_count += 1
+                break
 
-        return self._enemy_killed
+            if enemy.name == "Boss":
+                print("Boss Heart: {}".format(enemy.heart))
+
+        if self.kill_enemy_count == 10:
+            self.set_boss()
 
     def bullets_collided(self, player: Player):
         for enemy in self.enemys:

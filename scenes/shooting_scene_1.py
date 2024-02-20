@@ -67,11 +67,7 @@ class Shooting_scene_1:
             # プレイヤーの弾の当たり判定
             player.bullet_collided(enemy_observer)
 
-            if enemy_observer.enemy_killed(score):
-                kill_enemy_count += 1
-                print(kill_enemy_count)
-            if kill_enemy_count == 10:
-                enemy_observer.set_boss()
+            enemy_observer.enemy_killed(score)
 
             # エネミーの弾の当たり判定
             enemy_observer.bullets_collided(player)

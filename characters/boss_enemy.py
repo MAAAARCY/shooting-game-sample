@@ -27,7 +27,7 @@ ENEMY_Y = window_size.height // 2 - 250  # Y座標
 ENEMY_SPEED_X = int(os.getenv('ENEMY_SPEED_X'))  # 移動速度
 ENEMY_MAX_COUNT = int(os.getenv('ENEMY_MAX_COUNT'))  # 最大数
 ENEMY_GENERATE_CYCLE = int(os.getenv('ENEMY_GENERATE_CYCLE'))  # エネミーが復活する周期
-ENEMY_HEART = int(os.getenv('ENEMY_HEART'))+10  # エネミーの体力
+ENEMY_HEART = int(os.getenv('ENEMY_HEART'))  # エネミーの体力
 
 ENEMY_BULLET_SPEED = int(os.getenv('ENEMY_BULLET_SPEED'))  # 弾の速度
 ENEMY_BULLET_MAX_COUNT = 3  # 打てる弾の最大数
