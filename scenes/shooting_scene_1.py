@@ -20,8 +20,8 @@ GENERATE_ENEMY_CYCLE = 1
 class Shooting_scene_1:
     def scene(self, screen, clock, fps):
         player = Player()
-        enemy_operator = EnemyObserver()
-        enemy_operator.set_enemy()
+        enemy_observer = EnemyObserver()
+        enemy_observer.set_enemy()
 
         score = Score()
         time_keeper = Common().get_time_keeper(
@@ -56,36 +56,38 @@ class Shooting_scene_1:
             player.move_x(keys)
 
             # エネミーの移動
-            enemy_operator.move_x()
+            enemy_observer.move_x()
 
             # 弾の挙動に関する処理
             # プレイヤーの弾の当たり判定
-            if player.bullet_collided(enemy_operator, score):
+            player.bullet_collided(enemy_observer, score)
+
+            if enemy_observer.enemy_killed(score):
                 kill_enemy_count += 1
             if kill_enemy_count == 10:
-                enemy_operator.set_boss()
+                enemy_observer.set_boss()
 
             # エネミーの弾の当たり判定
-            enemy_operator.bullets_collided(player)
-            if len(enemy_operator.bosses) != 0:
-                enemy_operator.bosses[0].bullet_collided(player)
+            enemy_observer.bullets_collided(player)
+            if len(enemy_observer.bosses) != 0:
+                enemy_observer.bosses[0].bullet_collided(player)
 
             # エネミーの弾発射周期管理
             if time_keeper.now_second % time_keeper.enemy_bullet_cycle == 0 and time_keeper.now_second != 0:
-                pick_num = random.randint(0, len(enemy_operator.enemys))
+                pick_num = random.randint(0, len(enemy_observer.enemys))
 
-                enemy_operator.shot_bullets(pick_num)
+                enemy_observer.shot_bullets(pick_num)
                 time_keeper.add_enemy_bullet_cycle(ENEMY_BULLET_CYCLE)
 
             # ボスの弾発射周期管理
             if time_keeper.now_milli_second % time_keeper.boss_bullet_cycle == 0 and time_keeper.now_second != 0:
-                if len(enemy_operator.bosses) != 0:
-                    enemy_operator.bosses[0].shot_bullet()
+                if len(enemy_observer.bosses) != 0:
+                    enemy_observer.bosses[0].shot_bullet()
                 time_keeper.add_boss_bullet_cycle(0.5)
 
             # 死んだエネミーを復活させる処理
             if time_keeper.reborn_second % time_keeper.generate_enemy_cycle == 0 and time_keeper.reborn_second != 0:
-                enemy_operator.set_enemy()
+                enemy_observer.set_enemy()
                 time_keeper.add_generate_enemy_cycle(GENERATE_ENEMY_CYCLE)
 
             # 以下描画処理
@@ -96,12 +98,12 @@ class Shooting_scene_1:
             all_sprites.add(player.hearts)
 
             # エネミーを描画
-            all_sprites.add(enemy_operator.enemys)
+            all_sprites.add(enemy_observer.enemys)
             # プレイヤーの弾を描画
             all_sprites.add(player.bullets)
 
             # エネミーの弾を描画
-            for enemy in enemy_operator.enemys:
+            for enemy in enemy_observer.enemys:
                 all_sprites.add(enemy.bullets)
 
             # スコアを描画

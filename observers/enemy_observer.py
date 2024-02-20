@@ -53,6 +53,25 @@ class EnemyObserver:
             if enemy_num == pick_num:
                 enemy.shot_bullet()
 
+    def damage_enemy(self, enemy):
+        enemy.heart -= 1
+
+    def enemy_killed(self, score):
+        for enemy in self.enemys:
+            if enemy.heart == 0:
+                self.enemys.remove(enemy)
+                if enemy.name == "Enemy":
+                    score.score += 10
+                elif enemy.name == "Boss":
+                    score.score += 100
+                self._enemy_killed = True
+                # pygame.time.wait(10)
+                return self._enemy_killed
+            else:
+                self._enemy_killed = False
+
+        return self._enemy_killed
+
     def bullets_collided(self, player: Player):
         for enemy in self.enemys:
             if enemy.bullet_collided(player):

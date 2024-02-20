@@ -13,6 +13,7 @@ from .utils.heart import Heart
 # プレイヤー設定を読み込むためのモジュール
 from dotenv import load_dotenv
 import os
+import time
 load_dotenv()
 
 window_size = Common().get_window_size()
@@ -47,7 +48,7 @@ class Player(pygame.sprite.Sprite):
             heart = Heart(i*int(os.getenv('HEART_WIDTH')))
             self.hearts.append(heart)
 
-        print("X:{},Y:{}".format(self.rect.x, self.rect.y))
+        self.enemy_killed = False
 
     def move_x(self, keys):
         if keys[K_LEFT] and self.rect.left > 0:
@@ -65,7 +66,7 @@ class Player(pygame.sprite.Sprite):
             self.bullets.append(player_bullet)
 
     # プレイヤーの弾の当たり判定
-    def bullet_collided(self, enemy_operator, score):
+    def bullet_collided(self, enemy_observer, score):
         self._collision = False
         for bullet in self.bullets:
             bullet.rect.y -= PLAYER_BULLET_SPEED
@@ -73,19 +74,11 @@ class Player(pygame.sprite.Sprite):
             if bullet.rect.top < 0:
                 self.bullets.remove(bullet)
             # エネミーに弾が当たった時の処理
-            for enemy in enemy_operator.enemys:
+            for enemy in enemy_observer.enemys:
                 if bullet.rect.colliderect(enemy):
                     self.bullets.remove(bullet)
-
-                    enemy.heart -= 1
-                    if enemy.heart == 0:
-                        enemy_operator.enemys.remove(enemy)
-                        if enemy.name == "Enemy":
-                            score.score += 10
-                        elif enemy.name == "Boss":
-                            score.score += 100
-                        self._collision = True
-
+                    enemy_observer.damage_enemy(enemy)
+                    self._collision = True
                     break
 
             if self._collision:
