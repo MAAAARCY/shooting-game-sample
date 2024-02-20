@@ -47,7 +47,7 @@ class Shooting_scene_1:
                     if event.key == K_SPACE:
                         player.shot_bullet()  # プレイヤーの弾の発射処理
                         mp.value += 1
-                    if event.key == K_a and mp.value > 20:
+                    if event.key == K_a and mp.value >= 20:
                         player.special_bullet()
                         mp.value = max(mp.value - 20, 0)
 
