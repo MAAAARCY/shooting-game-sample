@@ -31,6 +31,7 @@ class Shooting_scene_1:
         )
 
         kill_enemy_count = 0  # エネミーを倒した数
+        player_bullet_mp = 0  # プレイヤーのMP
 
         while True:
             # ウインドウを白で塗りつぶす
@@ -43,7 +44,11 @@ class Shooting_scene_1:
                     sys.exit()
                 if event.type == KEYDOWN:
                     if event.key == K_SPACE:
-                        player.shot_bullet()
+                        player.shot_bullet()  # プレイヤーの弾の発射処理
+                        player_bullet_mp += 1
+                    if event.key == K_a and player_bullet_mp > 2:
+                        print("special attack")
+                        player.special_bullet()
 
             # キーボードの状態を取得
             keys = pygame.key.get_pressed()
@@ -60,10 +65,11 @@ class Shooting_scene_1:
 
             # 弾の挙動に関する処理
             # プレイヤーの弾の当たり判定
-            player.bullet_collided(enemy_observer, score)
+            player.bullet_collided(enemy_observer)
 
             if enemy_observer.enemy_killed(score):
                 kill_enemy_count += 1
+                print(kill_enemy_count)
             if kill_enemy_count == 10:
                 enemy_observer.set_boss()
 

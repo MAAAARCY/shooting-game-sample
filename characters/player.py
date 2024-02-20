@@ -6,6 +6,7 @@ from common.common import Common
 
 # 弾丸の情報が格納されているモジュール
 from .utils.bullet import Bullet
+from .utils.special_bullet import SpecialBullet
 
 # ハートの情報が格納されているモジュール
 from .utils.heart import Heart
@@ -65,8 +66,16 @@ class Player(pygame.sprite.Sprite):
 
             self.bullets.append(player_bullet)
 
+    def special_bullet(self):
+        player_bullet_x = self.rect.x + PLAYER_WIDTH // 2
+        player_bullet_y = self.rect.y  # 元々はPLAYER_BULLET_Y
+        # player_bullet = Bullet(player_bullet_x, player_bullet_y)
+        special = SpecialBullet(player_bullet_x, player_bullet_y)
+        print(type(special))
+        # self.bullets.append(player_bullet)
+
     # プレイヤーの弾の当たり判定
-    def bullet_collided(self, enemy_observer, score):
+    def bullet_collided(self, enemy_observer):
         self._collision = False
         for bullet in self.bullets:
             bullet.rect.y -= PLAYER_BULLET_SPEED
