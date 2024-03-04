@@ -82,6 +82,7 @@ class Player(pygame.sprite.Sprite):
             # 弾が画面外に出た時の処理
             if bullet.rect.top < 0:
                 self.bullets.remove(bullet)
+                break
             # エネミーに弾が当たった時の処理
             for enemy in enemy_observer.enemys:
                 if bullet.rect.colliderect(enemy):

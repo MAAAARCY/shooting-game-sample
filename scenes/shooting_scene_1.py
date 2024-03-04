@@ -86,7 +86,7 @@ class Shooting_scene_1:
             if time_keeper.now_milli_second % time_keeper.boss_bullet_cycle == 0 and time_keeper.now_second != 0:
                 if len(enemy_observer.bosses) != 0:
                     enemy_observer.bosses[0].shot_bullet()
-                time_keeper.add_boss_bullet_cycle(0.5)
+                    time_keeper.add_boss_bullet_cycle(0.5)
 
             # 死んだエネミーを復活させる処理
             if time_keeper.reborn_second % time_keeper.generate_enemy_cycle == 0 and time_keeper.reborn_second != 0:

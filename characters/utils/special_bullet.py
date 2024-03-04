@@ -14,7 +14,9 @@ BULLET_HEIGHT = int(os.getenv('BULLET_HEIGHT'))
 class SpecialBullet(Bullet):
     def __init__(self, bullet_x: int, bullet_y: int):
         super().__init__(bullet_x, bullet_y)
+        self._special_bullet_img = pygame.image.load(
+            "images/{}".format(os.getenv('SPECIAL_BULLET_IMAGE')))
         self.image = pygame.transform.scale(
-            self._bullet_img, (BULLET_WIDTH*10, BULLET_HEIGHT*10))
+            self._special_bullet_img, (BULLET_WIDTH*10, BULLET_HEIGHT*10))
         self.rect = pygame.Rect(
             bullet_x, bullet_y, BULLET_WIDTH*10, BULLET_HEIGHT*10)
