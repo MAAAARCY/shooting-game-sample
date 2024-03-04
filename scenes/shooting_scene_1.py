@@ -9,6 +9,7 @@ from common.common import Common
 from characters.player import Player
 
 from observers.enemy_observer import EnemyObserver
+from observers.item_observer import ItemObserver
 
 from text_components.score import Score
 from text_components.mp import Mp
@@ -22,6 +23,7 @@ class Shooting_scene_1:
     def scene(self, screen, clock, fps):
         player = Player()
         enemy_observer = EnemyObserver()
+        item_observer = ItemObserver()
         enemy_observer.set_enemy()
 
         score = Score()
@@ -64,6 +66,9 @@ class Shooting_scene_1:
             # エネミーの移動
             enemy_observer.move_x()
 
+            # アイテムの落下
+            item_observer.drop_items(player)
+
             # 弾の挙動に関する処理
             # プレイヤーの弾の当たり判定
             player.bullet_collided(enemy_observer)
@@ -88,6 +93,11 @@ class Shooting_scene_1:
                     enemy_observer.bosses[0].shot_bullet()
                     time_keeper.add_boss_bullet_cycle(0.5)
 
+            # アイテムの落下周期管理
+            if time_keeper.now_second % time_keeper.drop_item_cycle == 0 and time_keeper.now_second != 0:
+                item_observer.add_item()
+                time_keeper.add_drop_item_cycle(10.0)
+
             # 死んだエネミーを復活させる処理
             if time_keeper.reborn_second % time_keeper.generate_enemy_cycle == 0 and time_keeper.reborn_second != 0:
                 enemy_observer.set_enemy()
@@ -108,6 +118,10 @@ class Shooting_scene_1:
             # エネミーの弾を描画
             for enemy in enemy_observer.enemys:
                 all_sprites.add(enemy.bullets)
+
+            # アイテムの描画
+            for item in item_observer.items:
+                all_sprites.add(item)
 
             # スコアを描画
             score_surface = score.font.render(
