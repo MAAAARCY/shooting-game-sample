@@ -46,6 +46,10 @@ class Shooting_scene_1:
                 if event.type == KEYDOWN:
                     if event.key == K_SPACE:
                         player.shot_bullet()  # プレイヤーの弾の発射処理
+                        mp.value += 1
+                    if event.key == K_a and mp.value >= 20:
+                        player.special_bullet()
+                        mp.value = 0
 
             # キーボードの状態を取得
             keys = pygame.key.get_pressed()
