@@ -3,6 +3,8 @@ from .window.fps import WindowFPS
 
 from .time.time_keeper import TimeKeeper
 
+from .mixer.music_directory import MusicDirectory
+
 
 class Singleton(object):
     def __new__(cls, *args, **kargs):
@@ -16,6 +18,7 @@ class Common(Singleton):
         self.window_size = WindowSize()
         self.window_fps = WindowFPS()
         self.time_keeper = TimeKeeper()
+        self.music_directory = MusicDirectory()
 
     def get_window_size(self):
         return self.window_size
@@ -27,3 +30,6 @@ class Common(Singleton):
         self.time_keeper = TimeKeeper(
             generate_enemy_cycle, enemy_bullet_cycle, boss_bullet_cycle)
         return self.time_keeper
+
+    def get_music_directory(self):
+        return self.music_directory

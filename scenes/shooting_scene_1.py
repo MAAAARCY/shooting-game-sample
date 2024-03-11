@@ -33,8 +33,11 @@ class Shooting_scene_1:
             enemy_bullet_cycle=ENEMY_BULLET_CYCLE,
             boss_bullet_cycle=BOSS_BULLET_CYCLE
         )
+        music_directory = Common().get_music_directory()
 
         kill_enemy_count = 0  # エネミーを倒した数
+
+        music_directory.start_bgm()
 
         while True:
             # ウインドウを白で塗りつぶす
@@ -48,9 +51,11 @@ class Shooting_scene_1:
                 if event.type == KEYDOWN:
                     if event.key == K_SPACE:
                         player.shot_bullet()  # プレイヤーの弾の発射処理
+                        music_directory.shot_sound_play()
                         mp.value += 1
                     if event.key == K_a and mp.value >= 20:
                         player.special_bullet()
+                        music_directory.special_shot_sound_play()
                         mp.value = 0
 
             # キーボードの状態を取得
