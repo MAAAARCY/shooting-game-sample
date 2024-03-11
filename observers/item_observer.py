@@ -28,10 +28,10 @@ class ItemObserver:
 
     def drop_items(self, player):
         for item in self.items:
-            item.rect.y += ITEM_DROP_SPEED
-            if item.rect.bottom > window_size.height:
-                self.items.remove(item)
-                break
+            if item.rect.bottom >= 380:
+                item.rect.bottom = 380
+            else:
+                item.rect.y += ITEM_DROP_SPEED
             if item.rect.colliderect(player) and type(item) == HeartItem:
                 self.items_collided(item, player)
                 break
